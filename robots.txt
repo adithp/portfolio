@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://adith.site/sitemap.xml
