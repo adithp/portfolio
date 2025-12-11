@@ -67,6 +67,9 @@ class VirtualScroll {
         // 4. Listeners
         window.addEventListener('resize', this.onResize.bind(this));
         window.addEventListener('wheel', this.onWheel.bind(this), { passive: false });
+        window.addEventListener('touchstart', this.onTouchStart.bind(this), { passive: false });
+        window.addEventListener('touchmove', this.onTouchMove.bind(this), { passive: false });
+        window.addEventListener('touchend', this.onTouchEnd.bind(this), { passive: false });
 
         // 5. Initial Render
         this.onResize();
@@ -90,6 +93,23 @@ class VirtualScroll {
         const delta = e.deltaY;
         state.scroll.target += delta;
         state.scroll.target = Math.max(0, Math.min(state.scroll.target, state.scroll.limit));
+    }
+
+    onTouchStart(e) {
+        this.touchStartY = e.touches[0].clientY;
+    }
+
+    onTouchMove(e) {
+        const touchY = e.touches[0].clientY;
+        const delta = (this.touchStartY - touchY) * 2; // Multiplier for sensitivity
+        this.touchStartY = touchY;
+
+        state.scroll.target += delta;
+        state.scroll.target = Math.max(0, Math.min(state.scroll.target, state.scroll.limit));
+    }
+
+    onTouchEnd(e) {
+        this.touchStartY = 0;
     }
 
     render() {

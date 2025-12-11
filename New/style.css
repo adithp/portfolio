@@ -186,3 +186,90 @@ body {
 .card-inner {
     transform-style: preserve-3d;
 }
+
+/* --- MOBILE RESPONSIVENESS --- */
+@media (max-width: 768px) {
+
+    /* Hide Custom Cursor on Touch Devices */
+    #cursor,
+    #cursor-follower {
+        display: none !important;
+    }
+
+    /* Adjust Hero Typography */
+    #hero-title {
+        font-size: 3rem !important;
+        /* Smaller title */
+    }
+
+    #hero-subtitle {
+        font-size: 0.8rem !important;
+    }
+
+    /* Adjust Cube Size */
+    .cube-container {
+        width: 150px !important;
+        height: 150px !important;
+    }
+
+    .face {
+        width: 150px !important;
+        height: 150px !important;
+    }
+
+    .face.front {
+        transform: rotateY(0deg) translateZ(75px);
+    }
+
+    .face.back {
+        transform: rotateY(180deg) translateZ(75px);
+    }
+
+    .face.right {
+        transform: rotateY(90deg) translateZ(75px);
+    }
+
+    .face.left {
+        transform: rotateY(-90deg) translateZ(75px);
+    }
+
+    .face.top {
+        transform: rotateX(90deg) translateZ(75px);
+    }
+
+    .face.bottom {
+        transform: rotateX(-90deg) translateZ(75px);
+    }
+
+    /* Adjust Solar System */
+    #solar-system {
+        width: 300px !important;
+        height: 300px !important;
+        transform: scale(0.6);
+        /* Scale down entire system */
+    }
+
+    /* Adjust Projects Carousel */
+    #project-carousel {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+        gap: 20px !important;
+    }
+
+    .project-card {
+        width: 300px !important;
+        height: 400px !important;
+    }
+
+    /* Adjust Contact Form */
+    .form-container {
+        width: 90% !important;
+        padding: 20px !important;
+    }
+
+    .section-title {
+        font-size: 1.5rem !important;
+        margin-left: 0 !important;
+        text-align: center;
+    }
+}
