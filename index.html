@@ -1,229 +1,487 @@
 <!DOCTYPE html>
-<html lang="en" class="bg-black text-white overflow-hidden">
+<html lang="en" class="scroll-smooth">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ADITH | Living Interface</title>
+    <title>ADITH | Full Stack Developer</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="style.css">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        'neon-blue': '#00f3ff',
-                        'neon-purple': '#bc13fe',
-                        'dark-bg': '#050505',
+                        'neon-cyan': '#00eaff',
+                        'neon-purple': '#a855f7',
+                        'neon-blue': '#1fb6ff',
+                        'dark-bg': '#030712',
+                        'dark-panel': '#020d1a',
                     },
                     fontFamily: {
-                        'mono': ['"Courier New"', 'Courier', 'monospace'],
-                        'sans': ['"Inter"', 'sans-serif'],
+                        'orbitron': ['Orbitron', 'sans-serif'],
+                        'rajdhani': ['Rajdhani', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'grid-pattern': "linear-gradient(to right, #1f2937 1px, transparent 1px), linear-gradient(to bottom, #1f2937 1px, transparent 1px)",
                     }
                 }
             }
         }
     </script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 
-<body class="cursor-none">
+<body class="bg-dark-bg text-white font-rajdhani overflow-x-hidden selection:bg-neon-cyan selection:text-black">
 
-    <!-- Background Canvas -->
-    <canvas id="bg-canvas" class="fixed top-0 left-0 w-full h-full -z-10"></canvas>
+    <!-- Background Elements -->
+    <div id="grid-background" class="fixed inset-0 z-[-2] opacity-20 pointer-events-none"></div>
+    <div id="particles-container" class="fixed inset-0 z-[-1] pointer-events-none"></div>
 
-    <!-- HUD Overlay -->
-    <div id="ui-layer"
-        class="fixed top-0 left-0 w-full h-full pointer-events-none z-50 p-8 flex flex-col justify-between">
-        <!-- Top Corners -->
-        <div class="flex justify-between w-full">
-            <div class="corner-bracket border-t-2 border-l-2 border-neon-blue w-8 h-8 animate-pulse"></div>
-            <div class="corner-bracket border-t-2 border-r-2 border-neon-blue w-8 h-8 animate-pulse"></div>
-        </div>
-
-        <!-- Bottom Corners & Info -->
-        <div class="flex justify-between w-full items-end">
-            <div class="flex flex-col gap-2">
-                <div class="corner-bracket border-b-2 border-l-2 border-neon-blue w-8 h-8 animate-pulse"></div>
-                <div class="text-neon-blue font-mono text-xs opacity-70" id="coords">X: 00.000 | Y: 00.000</div>
+    <!-- Navigation -->
+    <nav id="navbar"
+        class="fixed top-0 w-full z-50 transition-all duration-300 backdrop-blur-sm border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <span class="font-orbitron font-bold text-2xl text-neon-cyan tracking-wider">ADITH</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#hero"
+                            class="hover:text-neon-cyan transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">HOME</a>
+                        <a href="#skills"
+                            class="hover:text-neon-cyan transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">SKILLS</a>
+                        <a href="#projects"
+                            class="hover:text-neon-cyan transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">PROJECTS</a>
+                        <a href="#experience"
+                            class="hover:text-neon-cyan transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">EXPERIENCE</a>
+                        <a href="#contact"
+                            class="hover:text-neon-cyan transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">CONTACT</a>
+                    </div>
+                </div>
             </div>
-
-            <div class="flex flex-col items-end gap-2">
-                <div class="audio-visualizer flex gap-1 h-8 items-end">
-                    <div class="bar w-1 bg-neon-purple h-2 animate-bounce"></div>
-                    <div class="bar w-1 bg-neon-purple h-5 animate-bounce" style="animation-delay: 0.1s"></div>
-                    <div class="bar w-1 bg-neon-purple h-3 animate-bounce" style="animation-delay: 0.2s"></div>
-                    <div class="bar w-1 bg-neon-purple h-6 animate-bounce" style="animation-delay: 0.05s"></div>
-                </div>
-                <div class="corner-bracket border-b-2 border-r-2 border-neon-blue w-8 h-8 animate-pulse"></div>
-            </div>
         </div>
-    </div>
+    </nav>
 
-    <!-- Custom Cursor -->
-    <div id="cursor"
-        class="fixed w-4 h-4 bg-neon-blue rounded-full pointer-events-none z-[100] mix-blend-difference transition-transform duration-75 ease-out">
-    </div>
-    <div id="cursor-follower"
-        class="fixed w-10 h-10 border border-neon-blue rounded-full pointer-events-none z-[99] transition-transform duration-300 ease-out">
-    </div>
-
-
-    <!-- Virtual Scroll Wrapper -->
-    <div id="smooth-scroll-wrapper" class="fixed top-0 left-0 w-full h-full overflow-hidden">
-        <div id="content" class="w-full will-change-transform">
-
-            <!-- Hero Section -->
-            <section id="hero" class="h-screen flex items-center justify-center relative perspective-1000">
-                <div class="text-center z-10">
-                    <h1 id="hero-title" class="text-8xl font-bold font-mono tracking-tighter opacity-0">ADITH</h1>
-                    <p class="text-neon-blue mt-4 font-mono tracking-widest text-lg opacity-0" id="hero-subtitle">
-                        CREATIVE TECHNOLOGIST</p>
-                </div>
-
-                <!-- 3D Cube Placeholder -->
-                <div class="cube-container absolute w-64 h-64 opacity-20 animate-spin-slow">
-                    <div class="cube">
-                        <div class="face front border border-neon-purple/50 w-full h-full absolute"></div>
-                        <div class="face back border border-neon-purple/50 w-full h-full absolute"></div>
-                        <div class="face right border border-neon-purple/50 w-full h-full absolute"></div>
-                        <div class="face left border border-neon-purple/50 w-full h-full absolute"></div>
-                        <div class="face top border border-neon-purple/50 w-full h-full absolute"></div>
-                        <div class="face bottom border border-neon-purple/50 w-full h-full absolute"></div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Skills Section -->
-            <section id="skills" class="min-h-screen flex flex-col items-center justify-center relative py-20">
-                <h2 class="text-4xl font-mono mb-20 text-neon-blue section-title">SYSTEM MODULES</h2>
-                <div id="solar-system" class="relative w-[600px] h-[600px] flex items-center justify-center">
-                    <div class="core absolute w-20 h-20 bg-neon-blue rounded-full blur-md animate-pulse"></div>
-                    <div class="core-label absolute text-black font-bold z-10">CORE</div>
-
-                    <!-- Orbits will be populated by JS -->
-                </div>
-            </section>
-
-            <!-- Projects Section -->
-            <section id="projects" class="min-h-screen flex flex-col justify-center py-20 overflow-hidden">
-                <h2 class="text-4xl font-mono mb-10 ml-20 text-neon-blue section-title">ARCHIVES</h2>
-                <div id="project-carousel" class="flex gap-10 px-20 w-max">
-                    <!-- Project Cards -->
-                    <div
-                        class="project-card w-[400px] h-[500px] bg-gray-900 border border-gray-700 relative group perspective-1000 overflow-hidden">
-                        <div
-                            class="card-inner w-full h-full transition-transform duration-500 p-8 flex flex-col justify-end">
-                            <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/90 z-10"></div>
-                            <div class="relative z-20">
-                                <h3 class="text-2xl font-bold group-hover:text-neon-blue transition-colors mb-2">
-                                    ADVANCED BLOG APP</h3>
-                                <p class="text-neon-purple font-mono text-xs mb-4">DJANGO | POSTGRESQL</p>
-                                <p
-                                    class="text-gray-400 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-4 group-hover:translate-y-0">
-                                    10+ CRUD modules, OTP login, password reset, and 4 optimized PostgreSQL models.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div
-                        class="project-card w-[400px] h-[500px] bg-gray-900 border border-gray-700 relative group perspective-1000 overflow-hidden">
-                        <div
-                            class="card-inner w-full h-full transition-transform duration-500 p-8 flex flex-col justify-end">
-                            <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/90 z-10"></div>
-                            <div class="relative z-20">
-                                <h3 class="text-2xl font-bold group-hover:text-neon-blue transition-colors mb-2">COLLEGE
-                                    CMS</h3>
-                                <p class="text-neon-purple font-mono text-xs mb-4">DJANGO | POSTGRESQL</p>
-                                <p
-                                    class="text-gray-400 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-4 group-hover:translate-y-0">
-                                    Backend for book records, student browsing, admin-only creation, and role-based
-                                    permissions.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div
-                        class="project-card w-[400px] h-[500px] bg-gray-900 border border-gray-700 relative group perspective-1000 overflow-hidden">
-                        <div
-                            class="card-inner w-full h-full transition-transform duration-500 p-8 flex flex-col justify-end">
-                            <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/90 z-10"></div>
-                            <div class="relative z-20">
-                                <h3 class="text-2xl font-bold group-hover:text-neon-blue transition-colors mb-2">TRAVEL
-                                    APP</h3>
-                                <p class="text-neon-purple font-mono text-xs mb-4">DJANGO | POSTGRESQL</p>
-                                <p
-                                    class="text-gray-400 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-4 group-hover:translate-y-0">
-                                    CRUD for destinations, user login/wishlist, and booking flow for travel packages.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div
-                        class="project-card w-[400px] h-[500px] bg-gray-900 border border-gray-700 relative group perspective-1000 overflow-hidden">
-                        <div
-                            class="card-inner w-full h-full transition-transform duration-500 p-8 flex flex-col justify-end">
-                            <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/90 z-10"></div>
-                            <div class="relative z-20">
-                                <h3 class="text-2xl font-bold group-hover:text-neon-blue transition-colors mb-2">LIBRARY
-                                    SYSTEM</h3>
-                                <p class="text-neon-purple font-mono text-xs mb-4">DJANGO | POSTGRESQL</p>
-                                <p
-                                    class="text-gray-400 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-4 group-hover:translate-y-0">
-                                    Admin book management, user browsing interface, and wishlist mechanism.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Contact Section -->
-            <section id="contact" class="h-screen flex items-center justify-center relative">
-                <div class="vortex-container absolute inset-0 -z-10 opacity-30"></div>
-
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="min-h-screen flex items-center justify-center relative overflow-hidden">
+            <div class="absolute inset-0 z-0 flex items-center justify-center pointer-events-none">
+                <!-- Hologram Rings -->
                 <div
-                    class="form-container bg-black/50 backdrop-blur-md p-10 border border-neon-blue/30 w-[500px] relative">
-                    <h2 class="text-3xl font-mono mb-8 text-neon-blue section-title">TRANSMISSION</h2>
-                    <form id="contact-form" class="flex flex-col gap-6">
-                        <div class="group relative">
-                            <input type="text" placeholder="IDENTITY"
-                                class="w-full bg-transparent border-b border-gray-600 py-2 text-white focus:outline-none focus:border-neon-blue transition-colors font-mono">
-                            <div class="particle-emitter absolute right-0 top-1/2"></div>
+                    class="hologram-ring ring-1 w-[500px] h-[500px] border border-neon-cyan/30 rounded-full absolute animate-spin-slow">
+                </div>
+                <div
+                    class="hologram-ring ring-2 w-[400px] h-[400px] border border-neon-purple/30 rounded-full absolute animate-spin-reverse">
+                </div>
+                <div
+                    class="hologram-ring ring-3 w-[600px] h-[600px] border border-dashed border-neon-blue/20 rounded-full absolute animate-pulse">
+                </div>
+            </div>
+
+            <div class="relative z-10 text-center px-4">
+                <div class="mb-8 relative">
+                    <h1 class="text-5xl md:text-7xl font-orbitron font-bold text-white tracking-widest mb-4 glitch-text"
+                        data-text="ADITH">
+                        ADITH
+                    </h1>
+                    <p class="text-xl md:text-2xl text-neon-cyan font-rajdhani tracking-widest uppercase opacity-0"
+                        id="hero-subtitle">
+                        Full Stack Developer
+                    </p>
+                </div>
+
+                <div class="space-y-2 mb-12 font-mono text-sm text-neon-blue/80" id="boot-text">
+                    <!-- Boot sequence text will be injected here -->
+                </div>
+
+                <button id="enter-btn"
+                    class="group relative px-8 py-4 bg-transparent overflow-hidden rounded-none border border-neon-cyan transition-all hover:bg-neon-cyan/10 opacity-0">
+                    <span
+                        class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-neon-cyan/20 to-transparent -translate-x-full group-hover:animate-scan"></span>
+                    <span
+                        class="relative font-orbitron text-neon-cyan tracking-widest group-hover:text-white transition-colors">ENTER
+                        COMMAND CENTER</span>
+                    <div
+                        class="absolute bottom-0 left-0 w-full h-[2px] bg-neon-cyan transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left">
+                    </div>
+                </button>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="min-h-screen py-20 relative flex flex-col items-center justify-center">
+            <div class="absolute inset-0 z-0">
+                <canvas id="skills-canvas" class="w-full h-full opacity-30"></canvas>
+            </div>
+
+            <div class="relative z-10 container mx-auto px-4">
+                <h2 class="text-4xl md:text-6xl font-orbitron font-bold text-center mb-16 text-white">
+                    <span class="text-neon-purple">NEURAL</span> SKILL NETWORK
+                </h2>
+
+                <div id="skills-container"
+                    class="relative w-full h-[600px] border border-neon-purple/20 rounded-lg bg-dark-panel/50 backdrop-blur-sm overflow-hidden">
+                    <!-- Nodes will be injected here by JS -->
+                    <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                        <p class="text-neon-purple/50 font-mono text-sm animate-pulse">Scanning Neural Pathways...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="min-h-screen py-20 relative">
+            <div class="container mx-auto px-4">
+                <h2 class="text-4xl md:text-6xl font-orbitron font-bold text-center mb-16 text-white">
+                    <span class="text-neon-cyan">HOLOGRAM</span> PROJECTS
+                </h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Project Card 1 -->
+                    <div class="project-card glass-panel p-6 rounded-xl relative overflow-hidden group cursor-pointer"
+                        onclick="openProjectModal('WeatherApp')">
+                        <div
+                            class="absolute inset-0 bg-neon-cyan/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         </div>
-                        <div class="group relative">
-                            <input type="email" placeholder="FREQUENCY (EMAIL)"
-                                class="w-full bg-transparent border-b border-gray-600 py-2 text-white focus:outline-none focus:border-neon-blue transition-colors font-mono">
+                        <div
+                            class="absolute top-0 left-0 w-full h-1 bg-neon-cyan transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500">
                         </div>
-                        <div class="group relative">
-                            <textarea placeholder="DATA PACKET" rows="1"
-                                class="w-full bg-transparent border-b border-gray-600 py-2 text-white focus:outline-none focus:border-neon-blue transition-colors font-mono resize-none"></textarea>
+                        <div
+                            class="absolute bottom-0 right-0 w-full h-1 bg-neon-cyan transform translate-x-full group-hover:translate-x-0 transition-transform duration-500">
                         </div>
-                        <button type="submit"
-                            class="mt-4 border border-neon-blue text-neon-blue py-3 px-8 font-mono hover:bg-neon-blue hover:text-black transition-all duration-300 uppercase tracking-widest relative overflow-hidden group">
-                            <span class="relative z-10">Initiate Uplink</span>
+
+                        <h3
+                            class="text-2xl font-orbitron font-bold text-white mb-2 group-hover:text-neon-cyan transition-colors">
+                            WeatherApp</h3>
+                        <p class="text-gray-400 font-rajdhani mb-4">Real-time weather tracking with holographic data
+                            visualization.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span
+                                class="px-2 py-1 text-xs border border-neon-cyan/30 rounded text-neon-cyan">React</span>
+                            <span class="px-2 py-1 text-xs border border-neon-cyan/30 rounded text-neon-cyan">API</span>
+                        </div>
+                        <div
+                            class="text-neon-cyan text-sm font-mono opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0">
+                            > INITIALIZE_DEMO
+                        </div>
+                    </div>
+
+                    <!-- Project Card 2 -->
+                    <div class="project-card glass-panel p-6 rounded-xl relative overflow-hidden group cursor-pointer"
+                        onclick="openProjectModal('EduVision')">
+                        <div
+                            class="absolute inset-0 bg-neon-purple/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        </div>
+                        <div
+                            class="absolute top-0 left-0 w-full h-1 bg-neon-purple transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500">
+                        </div>
+                        <div
+                            class="absolute bottom-0 right-0 w-full h-1 bg-neon-purple transform translate-x-full group-hover:translate-x-0 transition-transform duration-500">
+                        </div>
+
+                        <h3
+                            class="text-2xl font-orbitron font-bold text-white mb-2 group-hover:text-neon-purple transition-colors">
+                            EduVision</h3>
+                        <p class="text-gray-400 font-rajdhani mb-4">AI-powered OCR platform for educational resource
+                            digitization.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span
+                                class="px-2 py-1 text-xs border border-neon-purple/30 rounded text-neon-purple">Python</span>
+                            <span
+                                class="px-2 py-1 text-xs border border-neon-purple/30 rounded text-neon-purple">TensorFlow</span>
+                        </div>
+                        <div
+                            class="text-neon-purple text-sm font-mono opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0">
+                            > ACCESS_DATABASE
+                        </div>
+                    </div>
+
+                    <!-- Project Card 3 -->
+                    <div class="project-card glass-panel p-6 rounded-xl relative overflow-hidden group cursor-pointer"
+                        onclick="openProjectModal('E-Commerce')">
+                        <div
+                            class="absolute inset-0 bg-neon-blue/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        </div>
+                        <div
+                            class="absolute top-0 left-0 w-full h-1 bg-neon-blue transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500">
+                        </div>
+                        <div
+                            class="absolute bottom-0 right-0 w-full h-1 bg-neon-blue transform translate-x-full group-hover:translate-x-0 transition-transform duration-500">
+                        </div>
+
+                        <h3
+                            class="text-2xl font-orbitron font-bold text-white mb-2 group-hover:text-neon-blue transition-colors">
+                            Exclusive E-commerce</h3>
+                        <p class="text-gray-400 font-rajdhani mb-4">Premium shopping experience with 3D product
+                            previews.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span
+                                class="px-2 py-1 text-xs border border-neon-blue/30 rounded text-neon-blue">Next.js</span>
+                            <span
+                                class="px-2 py-1 text-xs border border-neon-blue/30 rounded text-neon-blue">Stripe</span>
+                        </div>
+                        <div
+                            class="text-neon-blue text-sm font-mono opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0">
+                            > VIEW_MARKETPLACE
+                        </div>
+                    </div>
+
+                    <!-- Project Card 4 -->
+                    <div class="project-card glass-panel p-6 rounded-xl relative overflow-hidden group cursor-pointer"
+                        onclick="openProjectModal('DataBreach')">
+                        <div
+                            class="absolute inset-0 bg-red-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        </div>
+                        <div
+                            class="absolute top-0 left-0 w-full h-1 bg-red-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500">
+                        </div>
+                        <div
+                            class="absolute bottom-0 right-0 w-full h-1 bg-red-500 transform translate-x-full group-hover:translate-x-0 transition-transform duration-500">
+                        </div>
+
+                        <h3
+                            class="text-2xl font-orbitron font-bold text-white mb-2 group-hover:text-red-500 transition-colors">
+                            Data Breach Checker</h3>
+                        <p class="text-gray-400 font-rajdhani mb-4">Security tool to verify email compromise status.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span
+                                class="px-2 py-1 text-xs border border-red-500/30 rounded text-red-500">Security</span>
+                            <span class="px-2 py-1 text-xs border border-red-500/30 rounded text-red-500">API</span>
+                        </div>
+                        <div
+                            class="text-red-500 text-sm font-mono opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0">
+                            > RUN_DIAGNOSTIC
+                        </div>
+                    </div>
+
+                    <!-- Project Card 5 -->
+                    <div class="project-card glass-panel p-6 rounded-xl relative overflow-hidden group cursor-pointer"
+                        onclick="openProjectModal('SkillSync')">
+                        <div
+                            class="absolute inset-0 bg-green-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        </div>
+                        <div
+                            class="absolute top-0 left-0 w-full h-1 bg-green-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500">
+                        </div>
+                        <div
+                            class="absolute bottom-0 right-0 w-full h-1 bg-green-500 transform translate-x-full group-hover:translate-x-0 transition-transform duration-500">
+                        </div>
+
+                        <h3
+                            class="text-2xl font-orbitron font-bold text-white mb-2 group-hover:text-green-500 transition-colors">
+                            SkillSync</h3>
+                        <p class="text-gray-400 font-rajdhani mb-4">Collaborative learning platform for developers.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 text-xs border border-green-500/30 rounded text-green-500">Vue</span>
+                            <span
+                                class="px-2 py-1 text-xs border border-green-500/30 rounded text-green-500">Firebase</span>
+                        </div>
+                        <div
+                            class="text-green-500 text-sm font-mono opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0">
+                            > SYNC_NETWORK
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project Modal Overlay -->
+            <div id="project-modal"
+                class="fixed inset-0 z-[100] hidden flex items-center justify-center bg-black/90 backdrop-blur-xl opacity-0 transition-opacity duration-300">
+                <div class="relative w-full max-w-4xl p-8 bg-dark-panel border border-neon-cyan rounded-lg shadow-2xl transform scale-95 transition-transform duration-300"
+                    id="modal-content">
+                    <button onclick="closeProjectModal()"
+                        class="absolute top-4 right-4 text-white hover:text-neon-cyan">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                    <div id="modal-body">
+                        <!-- Content injected by JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience" class="min-h-screen py-20 relative overflow-hidden">
+            <div class="container mx-auto px-4 relative z-10">
+                <h2 class="text-4xl md:text-6xl font-orbitron font-bold text-center mb-20 text-white">
+                    <span class="text-neon-blue">CAREER</span> TRAJECTORY
+                </h2>
+
+                <div class="relative max-w-4xl mx-auto">
+                    <!-- Central Line -->
+                    <div class="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gray-800">
+                        <div class="w-full bg-neon-blue h-0 transition-all duration-1000" id="timeline-progress"></div>
+                    </div>
+
+                    <!-- Timeline Item 1 -->
+                    <div
+                        class="timeline-item relative mb-20 w-full flex justify-between items-center opacity-0 transform translate-y-10 transition-all duration-700">
+                        <div class="w-5/12 text-right pr-8">
+                            <h3 class="text-2xl font-orbitron font-bold text-white">Senior Full Stack Dev</h3>
+                            <p class="text-neon-blue font-mono mb-2">2023 - Present</p>
+                            <p class="text-gray-400 font-rajdhani">Leading a team of developers in building scalable
+                                cloud-native applications using React and Node.js.</p>
+                        </div>
+                        <div
+                            class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-dark-bg border-2 border-neon-blue rounded-full z-10 shadow-[0_0_15px_rgba(31,182,255,0.8)]">
+                        </div>
+                        <div class="w-5/12 pl-8"></div>
+                    </div>
+
+                    <!-- Timeline Item 2 -->
+                    <div
+                        class="timeline-item relative mb-20 w-full flex justify-between items-center opacity-0 transform translate-y-10 transition-all duration-700 delay-200">
+                        <div class="w-5/12 text-right pr-8"></div>
+                        <div
+                            class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-dark-bg border-2 border-neon-purple rounded-full z-10 shadow-[0_0_15px_rgba(168,85,247,0.8)]">
+                        </div>
+                        <div class="w-5/12 pl-8">
+                            <h3 class="text-2xl font-orbitron font-bold text-white">Frontend Developer</h3>
+                            <p class="text-neon-purple font-mono mb-2">2021 - 2023</p>
+                            <p class="text-gray-400 font-rajdhani">Specialized in creating high-performance UI
+                                components and interactive web experiences.</p>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Item 3 -->
+                    <div
+                        class="timeline-item relative mb-20 w-full flex justify-between items-center opacity-0 transform translate-y-10 transition-all duration-700 delay-400">
+                        <div class="w-5/12 text-right pr-8">
+                            <h3 class="text-2xl font-orbitron font-bold text-white">Freelance Developer</h3>
+                            <p class="text-neon-cyan font-mono mb-2">2019 - 2021</p>
+                            <p class="text-gray-400 font-rajdhani">Delivered custom web solutions for diverse clients,
+                                focusing on e-commerce and portfolio sites.</p>
+                        </div>
+                        <div
+                            class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-dark-bg border-2 border-neon-cyan rounded-full z-10 shadow-[0_0_15px_rgba(0,234,255,0.8)]">
+                        </div>
+                        <div class="w-5/12 pl-8"></div>
+                    </div>
+
+                    <!-- Timeline Item 4 -->
+                    <div
+                        class="timeline-item relative w-full flex justify-between items-center opacity-0 transform translate-y-10 transition-all duration-700 delay-600">
+                        <div class="w-5/12 text-right pr-8"></div>
+                        <div
+                            class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-dark-bg border-2 border-white rounded-full z-10 shadow-[0_0_15px_rgba(255,255,255,0.8)]">
+                        </div>
+                        <div class="w-5/12 pl-8">
+                            <h3 class="text-2xl font-orbitron font-bold text-white">Education</h3>
+                            <p class="text-white font-mono mb-2">2015 - 2019</p>
+                            <p class="text-gray-400 font-rajdhani">B.Tech in Computer Science & Engineering.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="min-h-screen py-20 relative flex items-center justify-center">
+            <div class="container mx-auto px-4 max-w-3xl relative z-10">
+                <div class="glass-panel p-8 md:p-12 rounded-2xl relative overflow-hidden">
+                    <!-- Decorative Corners -->
+                    <div class="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-neon-cyan"></div>
+                    <div class="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-neon-cyan"></div>
+                    <div class="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-neon-cyan"></div>
+                    <div class="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-neon-cyan"></div>
+
+                    <h2 class="text-3xl md:text-5xl font-orbitron font-bold text-center mb-8 text-white">
+                        INITIATE <span class="text-neon-purple">CONTACT</span>
+                    </h2>
+
+                    <form id="contact-form" class="space-y-6">
+                        <div class="relative group">
+                            <input type="text" id="name" required
+                                class="w-full bg-dark-bg/50 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-neon-cyan transition-colors peer placeholder-transparent">
+                            <label for="name"
+                                class="absolute left-4 top-3 text-gray-400 transition-all peer-focus:-top-6 peer-focus:text-xs peer-focus:text-neon-cyan peer-valid:-top-6 peer-valid:text-xs peer-valid:text-neon-cyan cursor-text">CODENAME</label>
                             <div
-                                class="absolute inset-0 bg-neon-blue transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300 ease-out -z-0">
+                                class="absolute bottom-0 left-0 w-0 h-[1px] bg-neon-cyan transition-all duration-300 peer-focus:w-full">
+                            </div>
+                        </div>
+
+                        <div class="relative group">
+                            <input type="email" id="email" required
+                                class="w-full bg-dark-bg/50 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-neon-cyan transition-colors peer placeholder-transparent">
+                            <label for="email"
+                                class="absolute left-4 top-3 text-gray-400 transition-all peer-focus:-top-6 peer-focus:text-xs peer-focus:text-neon-cyan peer-valid:-top-6 peer-valid:text-xs peer-valid:text-neon-cyan cursor-text">FREQUENCY
+                                (EMAIL)</label>
+                            <div
+                                class="absolute bottom-0 left-0 w-0 h-[1px] bg-neon-cyan transition-all duration-300 peer-focus:w-full">
+                            </div>
+                        </div>
+
+                        <div class="relative group">
+                            <textarea id="message" rows="4" required
+                                class="w-full bg-dark-bg/50 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-neon-cyan transition-colors peer placeholder-transparent resize-none"></textarea>
+                            <label for="message"
+                                class="absolute left-4 top-3 text-gray-400 transition-all peer-focus:-top-6 peer-focus:text-xs peer-focus:text-neon-cyan peer-valid:-top-6 peer-valid:text-xs peer-valid:text-neon-cyan cursor-text">TRANSMISSION
+                                DATA</label>
+                            <div
+                                class="absolute bottom-0 left-0 w-0 h-[1px] bg-neon-cyan transition-all duration-300 peer-focus:w-full">
+                            </div>
+                        </div>
+
+                        <button type="submit"
+                            class="w-full py-4 bg-neon-purple/20 border border-neon-purple text-neon-purple font-orbitron font-bold tracking-widest hover:bg-neon-purple hover:text-white transition-all duration-300 relative overflow-hidden group">
+                            <span class="relative z-10">SEND TRANSMISSION</span>
+                            <div
+                                class="absolute inset-0 bg-neon-purple transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left">
                             </div>
                         </button>
                     </form>
+
+                    <div class="mt-12 flex justify-center space-x-8">
+                        <a href="#"
+                            class="text-gray-400 hover:text-neon-cyan transition-colors transform hover:scale-110 duration-300">
+                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill-rule="evenodd"
+                                    d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                        <a href="#"
+                            class="text-gray-400 hover:text-neon-purple transition-colors transform hover:scale-110 duration-300">
+                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill-rule="evenodd"
+                                    d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                        <a href="#"
+                            class="text-gray-400 hover:text-neon-blue transition-colors transform hover:scale-110 duration-300">
+                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                            </svg>
+                        </a>
+                    </div>
                 </div>
-            </section>
+            </div>
+        </section>
+    </main>
 
-            <footer class="py-10 text-center text-gray-600 font-mono text-xs">
-                SYSTEM STATUS: ONLINE // © 2025 ADITH
-            </footer>
-
-        </div>
-    </div>
-
-    <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/MotionPathPlugin.min.js"></script>
-    <script src="script.js"></script>
+    <!-- Anime.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <!-- Main JS -->
+    <script src="js/main.js"></script>
 </body>
 
 </html>
