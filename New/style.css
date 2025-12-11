@@ -1,0 +1,188 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=Courier+Prime:wght@400;700&display=swap');
+
+/* --- GLOBAL OVERRIDES --- */
+body {
+    overflow: hidden;
+    /* Hide native scrollbar */
+    background-color: #050505;
+}
+
+/* Hide Scrollbar */
+::-webkit-scrollbar {
+    display: none;
+}
+
+/* --- UTILITIES --- */
+.perspective-1000 {
+    perspective: 1000px;
+}
+
+.preserve-3d {
+    transform-style: preserve-3d;
+}
+
+/* --- 3D CUBE ANIMATION --- */
+.cube-container {
+    perspective: 1000px;
+}
+
+.cube {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: rotateCube 20s infinite linear;
+}
+
+.face {
+    position: absolute;
+    width: 256px;
+    height: 256px;
+    background: rgba(188, 19, 254, 0.05);
+    border: 1px solid rgba(188, 19, 254, 0.3);
+    box-shadow: 0 0 15px rgba(188, 19, 254, 0.1);
+}
+
+.face.front {
+    transform: rotateY(0deg) translateZ(128px);
+}
+
+.face.back {
+    transform: rotateY(180deg) translateZ(128px);
+}
+
+.face.right {
+    transform: rotateY(90deg) translateZ(128px);
+}
+
+.face.left {
+    transform: rotateY(-90deg) translateZ(128px);
+}
+
+.face.top {
+    transform: rotateX(90deg) translateZ(128px);
+}
+
+.face.bottom {
+    transform: rotateX(-90deg) translateZ(128px);
+}
+
+@keyframes rotateCube {
+    from {
+        transform: rotateX(0deg) rotateY(0deg);
+    }
+
+    to {
+        transform: rotateX(360deg) rotateY(360deg);
+    }
+}
+
+/* --- GLITCH EFFECT --- */
+.glitch {
+    position: relative;
+}
+
+.glitch::before,
+.glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.glitch::before {
+    left: 2px;
+    text-shadow: -1px 0 #00f3ff;
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim-1 5s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+    left: -2px;
+    text-shadow: -1px 0 #bc13fe;
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim-2 5s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim-1 {
+    0% {
+        clip: rect(20px, 9999px, 10px, 0);
+    }
+
+    20% {
+        clip: rect(60px, 9999px, 70px, 0);
+    }
+
+    40% {
+        clip: rect(10px, 9999px, 50px, 0);
+    }
+
+    60% {
+        clip: rect(80px, 9999px, 20px, 0);
+    }
+
+    80% {
+        clip: rect(30px, 9999px, 90px, 0);
+    }
+
+    100% {
+        clip: rect(50px, 9999px, 60px, 0);
+    }
+}
+
+@keyframes glitch-anim-2 {
+    0% {
+        clip: rect(10px, 9999px, 80px, 0);
+    }
+
+    20% {
+        clip: rect(90px, 9999px, 10px, 0);
+    }
+
+    40% {
+        clip: rect(30px, 9999px, 20px, 0);
+    }
+
+    60% {
+        clip: rect(60px, 9999px, 50px, 0);
+    }
+
+    80% {
+        clip: rect(20px, 9999px, 70px, 0);
+    }
+
+    100% {
+        clip: rect(70px, 9999px, 30px, 0);
+    }
+}
+
+/* --- VORTEX ANIMATION --- */
+.vortex-container {
+    background: repeating-radial-gradient(circle at 50% 50%,
+            transparent 0,
+            rgba(0, 243, 255, 0.05) 2px,
+            transparent 4px,
+            rgba(0, 243, 255, 0.02) 10px);
+    animation: vortexSpin 20s linear infinite;
+}
+
+@keyframes vortexSpin {
+    from {
+        transform: scale(1) rotate(0deg);
+    }
+
+    to {
+        transform: scale(1.5) rotate(360deg);
+    }
+}
+
+/* --- PROJECT CARD 3D --- */
+.project-card {
+    transform-style: preserve-3d;
+}
+
+.card-inner {
+    transform-style: preserve-3d;
+}
