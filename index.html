@@ -1,495 +1,173 @@
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+rel="stylesheet">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adith Portfolio | Full Stack Developer (Django & React)</title>
-
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-
-  <meta name="keywords" content="Adith, developer, portfolio, web developer, django developer, react developer">
-
-<link rel="canonical" href="https://adith.site" />
-
-    <meta name="description" content="Adith’s portfolio website showcasing projects in full stack development, Django, React, mobile apps, and modern web technologies. Explore skills, experience, and contact information.">
-
-
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'neon-cyan': '#00eaff',
-                        'neon-purple': '#a855f7',
-                        'neon-blue': '#1fb6ff',
-                        'dark-bg': '#030712',
-                        'dark-panel': '#020d1a',
-                    },
-                    fontFamily: {
-                        'orbitron': ['Orbitron', 'sans-serif'],
-                        'rajdhani': ['Rajdhani', 'sans-serif'],
-                    },
-                    backgroundImage: {
-                        'grid-pattern': "linear-gradient(to right, #1f2937 1px, transparent 1px), linear-gradient(to bottom, #1f2937 1px, transparent 1px)",
-                    }
-                }
-            }
-        }
-    </script>
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/style.css">
 </head>
 
-<body class="bg-dark-bg text-white font-rajdhani overflow-x-hidden selection:bg-neon-cyan selection:text-black">
+<body>
+    <div class="noise-overlay"></div>
+    <div class="cursor-spotlight"></div>
 
-    <!-- Background Elements -->
-    <div id="grid-background" class="fixed inset-0 z-[-2] opacity-20 pointer-events-none"></div>
-    <div id="particles-container" class="fixed inset-0 z-[-1] pointer-events-none"></div>
+    <main class="main-grid">
+        <!-- Sidebar / Header Area -->
+        <header class="header-area">
+            <div class="logo">Adith<span class="accent">.</span></div>
+            <nav class="nav-menu">
+                <a href="#projects" class="nav-link"><span>01.</span> Work</a>
+                <a href="#about" class="nav-link"><span>02.</span> About</a>
+                <a href="#contact" class="nav-link"><span>03.</span> Contact</a>
+            </nav>
+            <div class="status-badge">
+                <span class="status-dot"></span>
+                Available for new projects
+            </div>
+        </header>
 
-    <!-- Navigation -->
-    <nav id="navbar"
-        class="fixed top-0 w-full z-50 transition-all duration-300 backdrop-blur-sm border-b border-white/10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex-shrink-0">
-                    <span class="font-orbitron font-bold text-2xl text-neon-cyan tracking-wider">ADITH</span>
+        <!-- Hero Section (Spans multiple columns) -->
+        <section class="hero-area bento-card">
+            <div class="hero-content">
+                <p class="mono-label">Python Full-Stack Developer</p>
+                <h1 class="hero-title">
+                    Building <span class="serif-italic">digital products</span> that feel <br>
+                    <span class="text-reveal">engineered, not just coded.</span>
+                </h1>
+                <p class="hero-bio">
+                    I’m Adith. I bridge the gap between complex backend logic and polished user interfaces. Specializing
+                    in Django, scalable APIs, and interactive React frontends.
+                </p>
+                <div class="hero-actions">
+                    <a href="#projects" class="btn btn-primary">View Selected Work</a>
+                    <a href="https://github.com/adithp/" target="_blank" class="btn btn-icon" aria-label="GitHub"
+                        title="GitHub">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path
+                                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+                            </path>
+                        </svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/adithp/" target="_blank" class="btn btn-icon"
+                        aria-label="LinkedIn" title="LinkedIn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z">
+                            </path>
+                            <rect x="2" y="9" width="4" height="12"></rect>
+                            <circle cx="4" cy="4" r="2"></circle>
+                        </svg>
+                    </a>
+                    <a href="resume_adith_new.pdf" target="_blank" class="btn btn-icon" aria-label="Resume"
+                        title="Resume">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                            <polyline points="10 9 9 9 8 9"></polyline>
+                        </svg>
+                    </a>
                 </div>
-                <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-8">
-                        <a href="#hero"
-                            class="hover:text-neon-cyan transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">HOME</a>
-                        <a href="#skills"
-                            class="hover:text-neon-cyan transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">SKILLS</a>
-                        <a href="#projects"
-                            class="hover:text-neon-cyan transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">PROJECTS</a>
-                        <a href="#experience"
-                            class="hover:text-neon-cyan transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">EXPERIENCE</a>
-                        <a href="#contact"
-                            class="hover:text-neon-cyan transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">CONTACT</a>
-                    </div>
+            </div>
+        </section>
+
+        <!-- Tech Stack (Vertical Marquee or List) -->
+        <aside class="stack-area bento-card">
+            <h3 class="card-label">Core Stack</h3>
+            <ul class="tech-list">
+                <li>Python <span>3.12</span></li>
+                <li>Django <span>5.0</span></li>
+                <li>PostgreSQL</li>
+                <li>React <span>18</span></li>
+                <li>Docker</li>
+                <li>Redis</li>
+                <li>AWS</li>
+            </ul>
+        </aside>
+
+        <!-- Project 1 (Large Feature) -->
+        <article id="projects" class="project-1 bento-card" data-tilt>
+            <div class="card-content">
+                <div class="project-header">
+                    <span class="project-year">2025</span>
+                    <h3 class="project-title">E-Commerce Core</h3>
                 </div>
+                <p class="project-desc">A headless commerce engine built for scale. Handles 10k+ concurrent requests
+                    with sub-100ms latency.</p>
+                <div class="tags">
+                    <span>Django DRF</span>
+                    <span>Redis</span>
+                    <span>Next.js</span>
+                </div>
+                <a href="#" class="project-link">View Case Study &rarr;</a>
+            </div>
+        </article>
+
+        <!-- Project 2 (Medium) -->
+        <article class="project-2 bento-card" data-tilt>
+            <div class="card-content">
+                <div class="project-header">
+                    <span class="project-year">2024</span>
+                    <h3 class="project-title">TaskFlow API</h3>
+                </div>
+                <p class="project-desc">Real-time collaboration platform with WebSocket integration and complex
+                    role-based access control.</p>
+                <div class="tags">
+                    <span>FastAPI</span>
+                    <span>WebSockets</span>
+                    <span>PostgreSQL</span>
+                </div>
+                <a href="#" class="project-link">View Code &rarr;</a>
+            </div>
+        </article>
+
+        <!-- Project 3 (Small) -->
+        <article class="project-3 bento-card" data-tilt>
+            <div class="card-content">
+                <div class="project-header">
+                    <h3 class="project-title">Portfolio v2</h3>
+                </div>
+                <p class="project-desc">This site. No frameworks, just pure craft.</p>
+                <a href="https://github.com/adithp/" target="_blank" class="project-link">GitHub &rarr;</a>
+            </div>
+        </article>
+
+        <!-- Stats / Info -->
+        <div class="stats-area bento-card">
+            <div class="stat-item">
+                <span class="stat-num">4+</span>
+                <span class="stat-label">Years Exp.</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-num">20+</span>
+                <span class="stat-label">Projects</span>
             </div>
         </div>
-    </nav>
 
-    <!-- Main Content -->
-    <main>
-        <!-- Hero Section -->
-        <section id="hero" class="min-h-screen flex items-center justify-center relative overflow-hidden">
-            <div class="absolute inset-0 z-0 flex items-center justify-center pointer-events-none">
-                <!-- Hologram Rings -->
-                <div
-                    class="hologram-ring ring-1 w-[500px] h-[500px] border border-neon-cyan/30 rounded-full absolute animate-spin-slow">
-                </div>
-                <div
-                    class="hologram-ring ring-2 w-[400px] h-[400px] border border-neon-purple/30 rounded-full absolute animate-spin-reverse">
-                </div>
-                <div
-                    class="hologram-ring ring-3 w-[600px] h-[600px] border border-dashed border-neon-blue/20 rounded-full absolute animate-pulse">
-                </div>
-            </div>
-
-            <div class="relative z-10 text-center px-4">
-                <div class="mb-8 relative">
-                    <h1 class="text-5xl md:text-7xl font-orbitron font-bold text-white tracking-widest mb-4 glitch-text"
-                        data-text="Adith Portfolio – Full Stack Develope">
-                        <h1>Adith Portfolio – Full Stack Developer</h1>
-                    </h1>
-                    <p class="text-xl md:text-2xl text-neon-cyan font-rajdhani tracking-widest uppercase opacity-0"
-                        id="hero-subtitle">
-                        Full Stack Developer
-                    </p>
-                </div>
-
-                <div class="space-y-2 mb-12 font-mono text-sm text-neon-blue/80" id="boot-text">
-                    <!-- Boot sequence text will be injected here -->
-                </div>
-
-                <button id="enter-btn"
-                    class="group relative px-8 py-4 bg-transparent overflow-hidden rounded-none border border-neon-cyan transition-all hover:bg-neon-cyan/10 opacity-0">
-                    <span
-                        class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-neon-cyan/20 to-transparent -translate-x-full group-hover:animate-scan"></span>
-                    <span
-                        class="relative font-orbitron text-neon-cyan tracking-widest group-hover:text-white transition-colors">ENTER
-                        COMMAND CENTER</span>
-                    <div
-                        class="absolute bottom-0 left-0 w-full h-[2px] bg-neon-cyan transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left">
-                    </div>
-                </button>
+        <!-- About / Philosophy -->
+        <section id="about" class="about-area bento-card">
+            <h2 class="section-heading">Philosophy</h2>
+            <div class="about-text">
+                <p>I believe that <span class="highlight">code quality</span> is user experience. A beautiful interface
+                    means nothing if the backend is fragile.</p>
+                <p>My work is grounded in solid engineering principles—clean architecture, comprehensive testing, and
+                    performance optimization—wrapped in interfaces that feel intuitive and alive.</p>
             </div>
         </section>
 
-        <!-- Skills Section -->
-        <section id="skills" class="min-h-screen py-20 relative flex flex-col items-center justify-center">
-            <div class="absolute inset-0 z-0">
-                <canvas id="skills-canvas" class="w-full h-full opacity-30"></canvas>
+        <!-- Contact -->
+        <footer id="contact" class="contact-area bento-card">
+            <h2 class="section-heading">Let's Build</h2>
+            <p>Have a complex problem to solve?</p>
+            <a href="mailto:adithkandoth@gmail.com" class="email-link">adithkandoth@gmail.com</a>
+            <div class="footer-links">
+                <a href="https://www.linkedin.com/in/adithp/" target="_blank">LinkedIn</a>
+                <a href="https://github.com/adithp/" target="_blank">GitHub</a>
+                <a href="resume_adith_new.pdf" target="_blank">Resume</a>
             </div>
-
-            <div class="relative z-10 container mx-auto px-4">
-                <h2 class="text-4xl md:text-6xl font-orbitron font-bold text-center mb-16 text-white">
-                    <span class="text-neon-purple">NEURAL</span> SKILL NETWORK
-                </h2>
-
-                <div id="skills-container"
-                    class="relative w-full h-[600px] border border-neon-purple/20 rounded-lg bg-dark-panel/50 backdrop-blur-sm overflow-hidden">
-                    <!-- Nodes will be injected here by JS -->
-                    <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                        <p class="text-neon-purple/50 font-mono text-sm animate-pulse">Scanning Neural Pathways...</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Projects Section -->
-        <section id="projects" class="min-h-screen py-20 relative">
-            <div class="container mx-auto px-4">
-                <h2 class="text-4xl md:text-6xl font-orbitron font-bold text-center mb-16 text-white">
-                    <span class="text-neon-cyan">HOLOGRAM</span> PROJECTS
-                </h2>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Project Card 1 -->
-                    <div class="project-card glass-panel p-6 rounded-xl relative overflow-hidden group cursor-pointer"
-                        onclick="openProjectModal('WeatherApp')">
-                        <div
-                            class="absolute inset-0 bg-neon-cyan/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        </div>
-                        <div
-                            class="absolute top-0 left-0 w-full h-1 bg-neon-cyan transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500">
-                        </div>
-                        <div
-                            class="absolute bottom-0 right-0 w-full h-1 bg-neon-cyan transform translate-x-full group-hover:translate-x-0 transition-transform duration-500">
-                        </div>
-
-                        <h3
-                            class="text-2xl font-orbitron font-bold text-white mb-2 group-hover:text-neon-cyan transition-colors">
-                            WeatherApp</h3>
-                        <p class="text-gray-400 font-rajdhani mb-4">Real-time weather tracking with holographic data
-                            visualization.</p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span
-                                class="px-2 py-1 text-xs border border-neon-cyan/30 rounded text-neon-cyan">React</span>
-                            <span class="px-2 py-1 text-xs border border-neon-cyan/30 rounded text-neon-cyan">API</span>
-                        </div>
-                        <div
-                            class="text-neon-cyan text-sm font-mono opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0">
-                            > INITIALIZE_DEMO
-                        </div>
-                    </div>
-
-                    <!-- Project Card 2 -->
-                    <div class="project-card glass-panel p-6 rounded-xl relative overflow-hidden group cursor-pointer"
-                        onclick="openProjectModal('EduVision')">
-                        <div
-                            class="absolute inset-0 bg-neon-purple/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        </div>
-                        <div
-                            class="absolute top-0 left-0 w-full h-1 bg-neon-purple transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500">
-                        </div>
-                        <div
-                            class="absolute bottom-0 right-0 w-full h-1 bg-neon-purple transform translate-x-full group-hover:translate-x-0 transition-transform duration-500">
-                        </div>
-
-                        <h3
-                            class="text-2xl font-orbitron font-bold text-white mb-2 group-hover:text-neon-purple transition-colors">
-                            EduVision</h3>
-                        <p class="text-gray-400 font-rajdhani mb-4">AI-powered OCR platform for educational resource
-                            digitization.</p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span
-                                class="px-2 py-1 text-xs border border-neon-purple/30 rounded text-neon-purple">Python</span>
-                            <span
-                                class="px-2 py-1 text-xs border border-neon-purple/30 rounded text-neon-purple">TensorFlow</span>
-                        </div>
-                        <div
-                            class="text-neon-purple text-sm font-mono opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0">
-                            > ACCESS_DATABASE
-                        </div>
-                    </div>
-
-                    <!-- Project Card 3 -->
-                    <div class="project-card glass-panel p-6 rounded-xl relative overflow-hidden group cursor-pointer"
-                        onclick="openProjectModal('E-Commerce')">
-                        <div
-                            class="absolute inset-0 bg-neon-blue/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        </div>
-                        <div
-                            class="absolute top-0 left-0 w-full h-1 bg-neon-blue transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500">
-                        </div>
-                        <div
-                            class="absolute bottom-0 right-0 w-full h-1 bg-neon-blue transform translate-x-full group-hover:translate-x-0 transition-transform duration-500">
-                        </div>
-
-                        <h3
-                            class="text-2xl font-orbitron font-bold text-white mb-2 group-hover:text-neon-blue transition-colors">
-                            Exclusive E-commerce</h3>
-                        <p class="text-gray-400 font-rajdhani mb-4">Premium shopping experience with 3D product
-                            previews.</p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span
-                                class="px-2 py-1 text-xs border border-neon-blue/30 rounded text-neon-blue">Next.js</span>
-                            <span
-                                class="px-2 py-1 text-xs border border-neon-blue/30 rounded text-neon-blue">Stripe</span>
-                        </div>
-                        <div
-                            class="text-neon-blue text-sm font-mono opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0">
-                            > VIEW_MARKETPLACE
-                        </div>
-                    </div>
-
-                    <!-- Project Card 4 -->
-                    <div class="project-card glass-panel p-6 rounded-xl relative overflow-hidden group cursor-pointer"
-                        onclick="openProjectModal('DataBreach')">
-                        <div
-                            class="absolute inset-0 bg-red-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        </div>
-                        <div
-                            class="absolute top-0 left-0 w-full h-1 bg-red-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500">
-                        </div>
-                        <div
-                            class="absolute bottom-0 right-0 w-full h-1 bg-red-500 transform translate-x-full group-hover:translate-x-0 transition-transform duration-500">
-                        </div>
-
-                        <h3
-                            class="text-2xl font-orbitron font-bold text-white mb-2 group-hover:text-red-500 transition-colors">
-                            Data Breach Checker</h3>
-                        <p class="text-gray-400 font-rajdhani mb-4">Security tool to verify email compromise status.</p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span
-                                class="px-2 py-1 text-xs border border-red-500/30 rounded text-red-500">Security</span>
-                            <span class="px-2 py-1 text-xs border border-red-500/30 rounded text-red-500">API</span>
-                        </div>
-                        <div
-                            class="text-red-500 text-sm font-mono opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0">
-                            > RUN_DIAGNOSTIC
-                        </div>
-                    </div>
-
-                    <!-- Project Card 5 -->
-                    <div class="project-card glass-panel p-6 rounded-xl relative overflow-hidden group cursor-pointer"
-                        onclick="openProjectModal('SkillSync')">
-                        <div
-                            class="absolute inset-0 bg-green-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        </div>
-                        <div
-                            class="absolute top-0 left-0 w-full h-1 bg-green-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500">
-                        </div>
-                        <div
-                            class="absolute bottom-0 right-0 w-full h-1 bg-green-500 transform translate-x-full group-hover:translate-x-0 transition-transform duration-500">
-                        </div>
-
-                        <h3
-                            class="text-2xl font-orbitron font-bold text-white mb-2 group-hover:text-green-500 transition-colors">
-                            SkillSync</h3>
-                        <p class="text-gray-400 font-rajdhani mb-4">Collaborative learning platform for developers.</p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="px-2 py-1 text-xs border border-green-500/30 rounded text-green-500">Vue</span>
-                            <span
-                                class="px-2 py-1 text-xs border border-green-500/30 rounded text-green-500">Firebase</span>
-                        </div>
-                        <div
-                            class="text-green-500 text-sm font-mono opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0">
-                            > SYNC_NETWORK
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Project Modal Overlay -->
-            <div id="project-modal"
-                class="fixed inset-0 z-[100] hidden flex items-center justify-center bg-black/90 backdrop-blur-xl opacity-0 transition-opacity duration-300">
-                <div class="relative w-full max-w-4xl p-8 bg-dark-panel border border-neon-cyan rounded-lg shadow-2xl transform scale-95 transition-transform duration-300"
-                    id="modal-content">
-                    <button onclick="closeProjectModal()"
-                        class="absolute top-4 right-4 text-white hover:text-neon-cyan">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                    <div id="modal-body">
-                        <!-- Content injected by JS -->
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Experience Section -->
-        <section id="experience" class="min-h-screen py-20 relative overflow-hidden">
-            <div class="container mx-auto px-4 relative z-10">
-                <h2 class="text-4xl md:text-6xl font-orbitron font-bold text-center mb-20 text-white">
-                    <span class="text-neon-blue">CAREER</span> TRAJECTORY
-                </h2>
-
-                <div class="relative max-w-4xl mx-auto">
-                    <!-- Central Line -->
-                    <div class="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gray-800">
-                        <div class="w-full bg-neon-blue h-0 transition-all duration-1000" id="timeline-progress"></div>
-                    </div>
-
-                    <!-- Timeline Item 1 -->
-                    <div
-                        class="timeline-item relative mb-20 w-full flex justify-between items-center opacity-0 transform translate-y-10 transition-all duration-700">
-                        <div class="w-5/12 text-right pr-8">
-                            <h3 class="text-2xl font-orbitron font-bold text-white">Senior Full Stack Dev</h3>
-                            <p class="text-neon-blue font-mono mb-2">2023 - Present</p>
-                            <p class="text-gray-400 font-rajdhani">Leading a team of developers in building scalable
-                                cloud-native applications using React and Node.js.</p>
-                        </div>
-                        <div
-                            class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-dark-bg border-2 border-neon-blue rounded-full z-10 shadow-[0_0_15px_rgba(31,182,255,0.8)]">
-                        </div>
-                        <div class="w-5/12 pl-8"></div>
-                    </div>
-
-                    <!-- Timeline Item 2 -->
-                    <div
-                        class="timeline-item relative mb-20 w-full flex justify-between items-center opacity-0 transform translate-y-10 transition-all duration-700 delay-200">
-                        <div class="w-5/12 text-right pr-8"></div>
-                        <div
-                            class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-dark-bg border-2 border-neon-purple rounded-full z-10 shadow-[0_0_15px_rgba(168,85,247,0.8)]">
-                        </div>
-                        <div class="w-5/12 pl-8">
-                            <h3 class="text-2xl font-orbitron font-bold text-white">Frontend Developer</h3>
-                            <p class="text-neon-purple font-mono mb-2">2021 - 2023</p>
-                            <p class="text-gray-400 font-rajdhani">Specialized in creating high-performance UI
-                                components and interactive web experiences.</p>
-                        </div>
-                    </div>
-
-                    <!-- Timeline Item 3 -->
-                    <div
-                        class="timeline-item relative mb-20 w-full flex justify-between items-center opacity-0 transform translate-y-10 transition-all duration-700 delay-400">
-                        <div class="w-5/12 text-right pr-8">
-                            <h3 class="text-2xl font-orbitron font-bold text-white">Freelance Developer</h3>
-                            <p class="text-neon-cyan font-mono mb-2">2019 - 2021</p>
-                            <p class="text-gray-400 font-rajdhani">Delivered custom web solutions for diverse clients,
-                                focusing on e-commerce and portfolio sites.</p>
-                        </div>
-                        <div
-                            class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-dark-bg border-2 border-neon-cyan rounded-full z-10 shadow-[0_0_15px_rgba(0,234,255,0.8)]">
-                        </div>
-                        <div class="w-5/12 pl-8"></div>
-                    </div>
-
-                    <!-- Timeline Item 4 -->
-                    <div
-                        class="timeline-item relative w-full flex justify-between items-center opacity-0 transform translate-y-10 transition-all duration-700 delay-600">
-                        <div class="w-5/12 text-right pr-8"></div>
-                        <div
-                            class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-dark-bg border-2 border-white rounded-full z-10 shadow-[0_0_15px_rgba(255,255,255,0.8)]">
-                        </div>
-                        <div class="w-5/12 pl-8">
-                            <h3 class="text-2xl font-orbitron font-bold text-white">Education</h3>
-                            <p class="text-white font-mono mb-2">2015 - 2019</p>
-                            <p class="text-gray-400 font-rajdhani">B.Tech in Computer Science & Engineering.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contact" class="min-h-screen py-20 relative flex items-center justify-center">
-            <div class="container mx-auto px-4 max-w-3xl relative z-10">
-                <div class="glass-panel p-8 md:p-12 rounded-2xl relative overflow-hidden">
-                    <!-- Decorative Corners -->
-                    <div class="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-neon-cyan"></div>
-                    <div class="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-neon-cyan"></div>
-                    <div class="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-neon-cyan"></div>
-                    <div class="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-neon-cyan"></div>
-
-                    <h2 class="text-3xl md:text-5xl font-orbitron font-bold text-center mb-8 text-white">
-                        INITIATE <span class="text-neon-purple">CONTACT</span>
-                    </h2>
-
-                    <form id="contact-form" class="space-y-6">
-                        <div class="relative group">
-                            <input type="text" id="name" required
-                                class="w-full bg-dark-bg/50 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-neon-cyan transition-colors peer placeholder-transparent">
-                            <label for="name"
-                                class="absolute left-4 top-3 text-gray-400 transition-all peer-focus:-top-6 peer-focus:text-xs peer-focus:text-neon-cyan peer-valid:-top-6 peer-valid:text-xs peer-valid:text-neon-cyan cursor-text">CODENAME</label>
-                            <div
-                                class="absolute bottom-0 left-0 w-0 h-[1px] bg-neon-cyan transition-all duration-300 peer-focus:w-full">
-                            </div>
-                        </div>
-
-                        <div class="relative group">
-                            <input type="email" id="email" required
-                                class="w-full bg-dark-bg/50 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-neon-cyan transition-colors peer placeholder-transparent">
-                            <label for="email"
-                                class="absolute left-4 top-3 text-gray-400 transition-all peer-focus:-top-6 peer-focus:text-xs peer-focus:text-neon-cyan peer-valid:-top-6 peer-valid:text-xs peer-valid:text-neon-cyan cursor-text">FREQUENCY
-                                (EMAIL)</label>
-                            <div
-                                class="absolute bottom-0 left-0 w-0 h-[1px] bg-neon-cyan transition-all duration-300 peer-focus:w-full">
-                            </div>
-                        </div>
-
-                        <div class="relative group">
-                            <textarea id="message" rows="4" required
-                                class="w-full bg-dark-bg/50 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-neon-cyan transition-colors peer placeholder-transparent resize-none"></textarea>
-                            <label for="message"
-                                class="absolute left-4 top-3 text-gray-400 transition-all peer-focus:-top-6 peer-focus:text-xs peer-focus:text-neon-cyan peer-valid:-top-6 peer-valid:text-xs peer-valid:text-neon-cyan cursor-text">TRANSMISSION
-                                DATA</label>
-                            <div
-                                class="absolute bottom-0 left-0 w-0 h-[1px] bg-neon-cyan transition-all duration-300 peer-focus:w-full">
-                            </div>
-                        </div>
-
-                        <button type="submit"
-                            class="w-full py-4 bg-neon-purple/20 border border-neon-purple text-neon-purple font-orbitron font-bold tracking-widest hover:bg-neon-purple hover:text-white transition-all duration-300 relative overflow-hidden group">
-                            <span class="relative z-10">SEND TRANSMISSION</span>
-                            <div
-                                class="absolute inset-0 bg-neon-purple transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left">
-                            </div>
-                        </button>
-                    </form>
-
-                    <div class="mt-12 flex justify-center space-x-8">
-                        <a href="#"
-                            class="text-gray-400 hover:text-neon-cyan transition-colors transform hover:scale-110 duration-300">
-                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                <path fill-rule="evenodd"
-                                    d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                        </a>
-                        <a href="#"
-                            class="text-gray-400 hover:text-neon-purple transition-colors transform hover:scale-110 duration-300">
-                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                <path fill-rule="evenodd"
-                                    d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                        </a>
-                        <a href="#"
-                            class="text-gray-400 hover:text-neon-blue transition-colors transform hover:scale-110 duration-300">
-                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
+        </footer>
     </main>
 
-    <!-- Anime.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-    <!-- Main JS -->
-    <script src="js/main.js"></script>
+    <script src="js/script.js"></script>
 </body>
 
 </html>
